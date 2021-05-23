@@ -1,0 +1,392 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 6.4.3.2 (MacOSX)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2020-06-11T09:45:45.093403364"/>
+	<meta name="CocoaVersion" content="1894.5"/>
+	<meta name="created" content="00:00:00">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<style type="text/css">
+		p.p1 { margin-bottom: 0cm; font-variant: normal; color: #000000; font-family: "Times"; font-size: 11pt; line-height: 0.27cm; text-align: center }
+		p.p2 { margin-bottom: 0cm; font-variant: normal; color: #000000; font-family: "Times"; font-size: 7pt; line-height: 0.27cm }
+		p.p3 { margin-bottom: 0cm; font-variant: normal; color: #000000; font-family: "Times"; font-size: 10pt; line-height: 0.27cm }
+		p.p5 { margin-bottom: 0cm; font-variant: normal; color: #1a1e2a; font-family: "Times"; font-size: 10pt; line-height: 0.27cm }
+	</style>
+</head>
+<body lang="it-IT" dir="ltr"><p class="p1" style="margin-bottom: 0.5cm">
+RASPBERRY SET UP FOR CAN</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm">*raspberry pi board model
+3</p>
+<p class="p2" style="margin-bottom: 0.5cm">*500MB+ ram</p>
+<p class="p2" style="margin-bottom: 0.5cm">*latest desktop version of
+rasbian NOOBS or LITE</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm">VCAN SET UP FOR TEST</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<ul>
+	<li><p style="margin-bottom: 0cm">sudo modprobe can, can
+	&gt;&gt;/etc/modules.d (permanently added). KERNEL MODULE FOR CAN
+	PROTOCOL</p>
+	<li><p style="margin-bottom: 0cm">sudo ip link add dev vcanx type
+	vcan. VCAN INTERFACE</p>
+	<li><p style="margin-bottom: 0cm">sudo ip link set vcanx up type
+	vcan. VCAN INT UP &amp; RUNNING</p>
+	<li><p>PERMANENT VCAN INTERFACE:</p>
+</ul>
+<ul>
+	<li><p style="margin-bottom: 0cm">sudo nano
+	<i>etc/network/interfaces</i><br/>
+<i>edit with:</i> 
+	</p>
+	<ul>
+		<li><p style="margin-bottom: 0cm"><i>auto vcanx</i></p>
+		<li><p style="margin-bottom: 0cm"><i>iface vcanx inet manual</i></p>
+		<li><p style="margin-bottom: 0cm"><i>pre-up sbin/ip link add dev
+		vcanx type vcan</i></p>
+		<li><p style="margin-bottom: 0cm"><i>ip /sbin/ip link set vcanx</i>
+		<i>up type vcan</i></p>
+		<li><p><i>down /sbin/ip link set vcanx down</i></p>
+	</ul>
+</ul>
+<p class="p2" style="margin-bottom: 0.5cm"><i>SET UP PYTHON CAN TOOLS</i></p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<ul>
+	<li><p style="margin-bottom: 0cm"><i>wget
+	https://bitbucket.org/hardbyte/python-can/get/4085cffd2519.zip</i> 
+	</p>
+	<li><p style="margin-bottom: 0cm"><i>Unzip
+	hardbyte/python-can/get/4085cffd2519.zip</i></p>
+	<li><p style="margin-bottom: 0cm"><i>run script setup.py in unzipped
+	dir as: sudo python3 setup.py install</i></p>
+	<li><p style="margin-bottom: 0cm"><i>sudo apt-get install
+	python3-pip</i></p>
+	<li><p><i>pip install cantools</i></p>
+</ul>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p3" style="margin-bottom: 0.5cm"><i>SET UP REMOTE DESKTOP
+CONNECTION</i></p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<ul>
+	<li><p style="margin-bottom: 0cm"><i>wpa_passphrase “name” |
+	sudo tee -a /etc/wpa_supplicant/.conf/ &gt; /dev/null</i></p>
+	<li><p style="margin-bottom: 0cm"><i>sudo apt install xrdp</i></p>
+	<li><p><i>systemctl show -p SubState --value xrdp</i></p>
+</ul>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p5" style="margin-bottom: 0.5cm"><i>SET UP CAN-USB
+(PEAKUSB) ON RASPBERRY</i></p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p5" style="margin-bottom: 0.5cm"><i>NETDEV DRIVERS must be
+installed manually on the rasberry, by integrating the Kernel
+SocketCAN network sub-layer.</i></p>
+<p class="p3" style="margin-bottom: 0.5cm"><i>NETDEV provides access
+to the PEAK-System CAN channels via the socket interface of the Linux
+kernel.</i></p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p3" style="margin-bottom: 0.5cm"><i>Requirements:</i></p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<ul>
+	<li><p style="margin-bottom: 0cm"><i>The kernel headers (or Linux
+	headers) package of the running Linux&nbsp;</i> 
+	</p>
+	<ul>
+		<li><p><i>sudo apt-get install raspberrypi-kernel-headers </i>
+		</p>
+	</ul>
+	<li><p><i>make,gcc,g++,libstdc++ (should be already present)</i></p>
+	<li><p style="margin-bottom: 0cm"><i>libpopt-dev package&nbsp;</i> 
+	</p>
+	<ul>
+		<li><p><i>sudo apt-get install libpopt(-dev)</i></p>
+	</ul>
+	<li><p style="margin-bottom: 0cm"><i>Driver tarball, download in
+	PEAK-System website</i> 
+	</p>
+	<ul>
+		<li><p style="margin-bottom: 0cm"><i>tar –xzf
+		peak-linux-driver-X.Y.Z.tar.gz </i>
+		</p>
+		<li><p style="margin-bottom: 0cm"><i>cd peak-linux-driver-X.Y.Z </i>
+		</p>
+		<li><p style="margin-bottom: 0cm"><i>make clean</i></p>
+		<li><p style="margin-bottom: 0cm"><i>make PCC=NO PCI=NO ISA=NO
+		DNG=NO -C driver NET=NETDEV-SUPPORT</i></p>
+		<li><p><i>sudo make install</i></p>
+	</ul>
+	<li><p style="margin-bottom: 0cm"><i>driver loading</i> 
+	</p>
+	<ul>
+		<li><p><i>sudo modprobe pcan</i></p>
+	</ul>
+	<li><p style="margin-bottom: 0cm"><i>Set up a PCAN netdev interface
+	with 500 kbit/s:&nbsp;</i> 
+	</p>
+	<ul>
+		<li><p style="margin-bottom: 0cm"><i>ip link set canX up type can
+		bitrate 500000</i></p>
+		<li><p style="margin-bottom: 0cm"><i>ifconfig canX up</i></p>
+		<li><p style="margin-bottom: 0cm"><i>ifconfig canX up</i> 
+		</p>
+	</ul>
+</ul>
+<p style="margin-bottom: 0cm"><br/>
+
+</p>
+<ul>
+	<li><p style="margin-bottom: 0cm">make image:</p>
+	<ul>
+		<li><p style="margin-bottom: 0cm">sudo dd if=/dev/sd[x]
+		of=/dev/sd[y] status=progress bs = (8,16,…,128)M</p>
+		<ul>
+			<li><p style="margin-bottom: 0cm"><i>/dev/sd[x] = raspberry micro
+			sd </i>
+			</p>
+			<li><p style="margin-bottom: 0cm"><i>/dev/sd[y] = device where
+			clone raspberry</i></p>
+		</ul>
+		<li><p style="margin-bottom: 0cm"><i>use lsblk</i></p>
+	</ul>
+</ul>
+<p style="margin-bottom: 0cm"><br/>
+
+</p>
+<ul>
+	<li><p style="margin-bottom: 0cm"><i>install cantools command line
+	(candump, canplayer, ecc..)</i></p>
+	<ul>
+		<li><p style="margin-bottom: 0cm"><i>use make file in:
+		can-utils-master</i></p>
+		<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><i><font color="#1b1f22"><span style="letter-spacing: normal"><b>SocketCAN
+		userspace utilities and tools</b></span></font></i></font></font></p>
+		<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">Th</span></span></font><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">e</span></span></font><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">
+		contains some userspace utilities for Linux CAN subsystem (aka
+		SocketCAN):</span></span></font></font></font></p>
+		<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><b>Basic
+		tools to display, record, generate and replay CAN traffic</b></span></font></font></font></p>
+	</ul>
+	<li><p style="margin-bottom: 0cm"><font color="#1b1f22"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><span style="letter-spacing: normal"><span style="font-weight: normal">candump
+	: display, filter and log CAN data to files</span></span></font></font></font></p>
+</ul>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">canplayer
+	: replay CAN logfiles</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">cansend
+	: send a single frame</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">cangen
+	: generate (random) CAN traffic</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">cansniffer
+	: display CAN data content differences</span></span></font></font></font></p>
+</ul>
+<ul>
+	<ul>
+		<li><p style="margin-bottom: 0cm; letter-spacing: normal"></p>
+		<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><b>CAN
+		access via IP sockets</b></span></font></font></font></p>
+	</ul>
+</ul>
+<ul>
+	<p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">canlogserver
+	: log CAN frames from a remote/local host</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">bcmserver
+	: interactive BCM configuration (remote/local)</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><a href="https://github.com/linux-can/socketcand"><font color="#0a4dcc"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><span style="letter-spacing: normal"><span style="font-weight: normal">socketcand</span></span></font></font></font></a><font color="#1b1f22"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><span style="letter-spacing: normal"><span style="font-weight: normal">
+	: use RAW/BCM/ISO-TP sockets via TCP/IP sockets</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><a href="https://github.com/mguentner/cannelloni"><font color="#0a4dcc"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><span style="letter-spacing: normal"><span style="font-weight: normal">cannelloni</span></span></font></font></font></a><font color="#1b1f22"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><span style="letter-spacing: normal"><span style="font-weight: normal">
+	: UDP/SCTP based SocketCAN tunnel</span></span></font></font></font></p>
+</ul>
+<ul>
+	<ul>
+		<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><b>CAN
+		in-kernel gateway configuration</b></span></font></font></font></p>
+	</ul>
+</ul>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">cangw
+	: CAN gateway userspace tool for netlink configuration</span></span></font></font></font></p>
+</ul>
+<ul>
+	<ul>
+		<li><p style="margin-bottom: 0cm; letter-spacing: normal"></p>
+		<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><b>CAN
+		bus measurement and testing</b></span></font></font></font></p>
+	</ul>
+</ul>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">canbusload
+	: calculate and display the CAN busload</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">can-calc-bit-timing
+	: userspace version of in-kernel bitrate calculation</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">canfdtest
+	: Full-duplex test program (DUT and host part)</span></span></font></font></font></p>
+</ul>
+<ul>
+	<ul>
+		<li><p style="margin-bottom: 0cm"><font color="#1b1f22"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><span style="letter-spacing: normal"><b>ISO-TP
+		tools </b></span></font></font></font><a href="https://github.com/hartkopp/can-isotp"><font color="#0a4dcc"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><span style="letter-spacing: normal"><b>ISO15765-2:2016
+		for Linux</b></span></font></font></font></a></p>
+	</ul>
+</ul>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">isotpsend
+	: send a single ISO-TP PDU</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">isotprecv
+	: receive ISO-TP PDU(s)</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">isotpsniffer
+	: 'wiretap' ISO-TP PDU(s)</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">isotpdump
+	: 'wiretap' and interpret CAN messages (CAN_RAW)</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">isotpserver
+	: IP server for simple TCP/IP &lt;-&gt; ISO 15765-2 bridging (ASCII
+	HEX)</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">isotpperf
+	: ISO15765-2 protocol performance visualisation</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">isotptun
+	: create a bi-directional IP tunnel on CAN via ISO-TP</span></span></font></font></font></p>
+</ul>
+<ul>
+	<ul>
+		<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><b>Log
+		file converters</b></span></font></font></font></p>
+	</ul>
+</ul>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">asc2log
+	: convert ASC logfile to compact CAN frame logfile</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">log2asc
+	: convert compact CAN frame logfile to ASC logfile</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">log2long
+	: convert compact CAN frame representation into user readable</span></span></font></font></font></p>
+</ul>
+<ul>
+	<ul>
+		<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><b>Serial
+		Line Discipline configuration (for slcan driver)</b></span></font></font></font></p>
+	</ul>
+</ul>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">slcan_attach
+	: userspace tool for serial line CAN interface configuration</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">slcand
+	: daemon for serial line CAN interface configuration</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">slcanpty
+	: creates a pty for applications using the slcan ASCII protocol</span></span></font></font></font></p>
+</ul>
+<ul>
+	<ul>
+		<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><b>CMake
+		Project Generator</b></span></font></font></font></p>
+	</ul>
+</ul>
+<ul>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">Place
+	your build folder anywhere, passing CMake the path. Relative or
+	absolute.</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">Some
+	examples using a build folder under the source tree root:</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">Android
+	: cmake
+	-DCMAKE_TOOLCHAIN_FILE=~/Android/Sdk/ndk-bundle/build/cmake/android.toolchain.cmake
+	-DANDROID_PLATFORM=android-21 -DANDROID_ABI=armeabi-v7a .. &amp;&amp;
+	make</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">Android
+	Studio : Copy repo under your project's app folder, add
+	add_subdirectory(can-utils) to your CMakeLists.txt file after
+	cmake_minimum_required(). Generating project will build
+	Debug/Release for all supported EABI types. ie. arm64-v8a,
+	armeabi-v7a, x86, x86_64.</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">Raspberry
+	Pi : cmake
+	-DCMAKE_TOOLCHAIN_FILE=~/rpi/tools/build/cmake/rpi.toolchain.cmake
+	.. &amp;&amp; make</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">Linux
+	: cmake -GNinja .. &amp;&amp; ninja</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">Linux
+	Eclipse Photon (Debug) : CC=clang cmake -G&quot;Eclipse CDT4 - Unix
+	Makefiles&quot; ../can-utils/ -DCMAKE_BUILD_TYPE=Debug
+	-DCMAKE_ECLIPSE_VERSION=4.8.0</span></span></font></font></font></p>
+	<li><p style="margin-bottom: 0cm"><font face="Linux Biolinum G"><font size="3" style="font-size: 12pt"><font color="#1b1f22"><span style="letter-spacing: normal"><span style="font-weight: normal">To
+	override the base installation directory use: CMAKE_INSTALL_PREFIX
+	ie. CC=clang cmake -DCMAKE_INSTALL_PREFIX=./out .. &amp;&amp; make
+	install</span></span></font></font></font></p>
+</ul>
+<ul>
+	<ul>
+		<p style="margin-bottom: 0cm"></p>
+	</ul>
+</ul>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+<p class="p2" style="margin-bottom: 0.5cm"><br/>
+<br/>
+
+</p>
+</body>
+</html>

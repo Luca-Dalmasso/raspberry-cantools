@@ -1,0 +1,61 @@
+#Tool used to run all tools without doing any 
+	configuration by terminal.
+
+#You can use scripts, without this graphic tool,
+ 	by a terminal as all others linux commands
+
+LABELS:
+
+#Iface: link interface name, can be canX for PEAK 
+    link type or vcanX for a virtual can.
+     use the command 'ip link show' to see all links
+     usually a PEAK_USB creates link named can0
+
+#SocketType: socket type that all scripts will use 
+	to bind Iface link
+        leave '0' if you don't know what to choose
+        for the purpose of this project use socketcan
+        0= socketcan type will be used.
+
+#Period: period in milliseconds that man_app.py 
+	will use to send messages on can bus
+        leave '0' if you want to use logs timestamp
+
+#GPIO enable: flag used to enable GPIO k15 input
+     this feature is used only on Rasberry or 
+      some kind of device  that have GPIO board
+
+#DUMP enable: flag used to enable log dump,
+      if you don't want to create a dump (a log) 
+     of the session leave the value 0 (dump disabled) 
+
+#C-Can LOG: combobox that allows you to select
+	one can message from can C DBC
+
+#P-Can LOG: combobox that allows you to select
+	one can message from can P DBC
+
+BUTTONS:
+
+#Lounch: runs 'main_app.py'  in a xterm session
+	with  LABELS configuration
+
+#Monitor: runs the 'out.py'  in a xterm session
+	 with  LABELS configuration
+
+#Check: check if  'Iface' is a CAN device,
+	and it's  UP and Ready to use
+
+#Quit: terminate this session
+
+#Iface UP: if a selected Iface results Down 
+	or for some reason not ready to be used,
+        this buttons allows you to bring the  Iface 
+	up with the Iface name you choose.
+	bash scripts are run in a xterm session.
+
+#P-CAN LOG: creates an empty can message csv
+	log in directory './EDITED' 
+
+#C-CAN LOG: creates an empty can message csv
+	log in directory './EDITED' 

@@ -1,0 +1,9 @@
+timestamp,WheelCircumference,BrakeSystemTypeVariant,GearBoxTypeVariant,NumberOfDoors,CarShape,GearBoxPaddles,DriverSide,SteeringRatio,BrakeTypeVariant,EngineTypeVariant,CarShapeCfg,AlternatorClass,TrackWidthVariant,SpeedLimiterPresence,CruiseControlPresence,TractionTypeVariant,ModelBrandConfiguration,DriveStyleSelector,AWDSelector,SPMPresence,WaterInFuelSensor,Wheelbase,MaxVehicleCapacity,Market
+1589449618.6693926,2225,3,3,1,0,0,0,0,0,5,1,0,0,0,0,0,1,0,0,0,1,3,4,0
+1589449620.6698537,2225,3,3,1,0,0,0,0,0,5,1,0,0,0,0,0,1,0,0,0,1,3,4,0
+1589449622.6692014,2225,3,3,1,0,0,0,0,0,5,1,0,0,0,0,0,1,0,0,0,1,3,4,0
+1589449624.6691883,2225,3,3,1,0,0,0,0,0,5,1,0,0,0,0,0,1,0,0,0,1,3,4,0
+1589449626.6691902,2225,3,3,1,0,0,0,0,0,5,1,0,0,0,0,0,1,0,0,0,1,3,4,0
+1589449628.6691933,2225,3,3,1,0,0,0,0,0,5,1,0,0,0,0,0,1,0,0,0,1,3,4,0
+1589449630.6690824,2225,3,3,1,0,0,0,0,0,5,1,0,0,0,0,0,1,0,0,0,1,3,4,0
+1589449632.669198,2225,3,3,1,0,0,0,0,0,5,1,0,0,0,0,0,1,0,0,0,1,3,4,0

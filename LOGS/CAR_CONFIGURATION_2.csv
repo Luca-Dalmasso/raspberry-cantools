@@ -1,0 +1,9 @@
+timestamp,SpeedLimiterThreshold,BlowByHeater,FinalRatio,FuelHeaterPresence,DPFRgnOnDemand,SCRPresence,StartStopPresence,ExternalTemperatureSensor,FuelTankType,TSRFeaturePresence,FuelPressureSensorPresence,Idle_Preset
+1589449618.6697128,161,0,1,0,0,0,0,1,5,0,0,0
+1589449620.6702058,161,0,1,0,0,0,0,1,5,0,0,0
+1589449622.6695216,161,0,1,0,0,0,0,1,5,0,0,0
+1589449624.6695166,161,0,1,0,0,0,0,1,5,0,0,0
+1589449626.6695104,161,0,1,0,0,0,0,1,5,0,0,0
+1589449628.6695354,161,0,1,0,0,0,0,1,5,0,0,0
+1589449630.6694024,161,0,1,0,0,0,0,1,5,0,0,0
+1589449632.6695182,161,0,1,0,0,0,0,1,5,0,0,0
